@@ -8,31 +8,31 @@ import utilities.ExcelReader;
 
 public class TC02OrderTest extends DriverSetUp {
     OrderPage orderPage = new OrderPage();
-    ExcelReader excelReader = new ExcelReader();
+
     @Test
     public void placeOrderAsaGuestUser() throws InterruptedException {
-        String[] testData = ExcelReader.readTestData();
+
 
         orderPage.clickOnElement(orderPage.shoppingCart);
         orderPage.clickOnElement(orderPage.checkoutButton);
         orderPage.clickOnElement(orderPage.checkoutAsGuest);
-        orderPage.writeOnByLocator(orderPage.firstNameField,testData[0]);
-        orderPage.writeOnByLocator(orderPage.lastNameField,testData[1]);
-        orderPage.writeOnByLocator(orderPage.emailField,testData[2]);
+        orderPage.writeOnByLocator(orderPage.firstNameField,"Muhammad");
+        orderPage.writeOnByLocator(orderPage.lastNameField,"Shazzad");
+        orderPage.writeOnByLocator(orderPage.emailField,"muhammad123@gmail.com");
         orderPage.clickOnElement(orderPage.selectCountry);
         orderPage.scrollToElement01("Bangladesh");
         orderPage.clickOnElement(orderPage.Bangladesh);
         orderPage.clickOnElement(orderPage.selectState);
         orderPage.scrollToElement01("টাঙ্গাইল");
         orderPage.clickOnElement(orderPage.Tangail);
-        orderPage.writeOnByLocator(orderPage.companyField,testData[3]);
-        orderPage.writeOnByLocator(orderPage.cityField,testData[4]);
-        orderPage.writeOnByLocator(orderPage.streetAddressField,testData[5]);
-        orderPage.writeOnByLocator(orderPage.streetAddress2Field,testData[6]);
-        orderPage.writeOnByLocator(orderPage.zipCodeField,testData[7]);
+        orderPage.writeOnByLocator(orderPage.companyField,"ABC company");
+        orderPage.writeOnByLocator(orderPage.cityField,"Tangail");
+        orderPage.writeOnByLocator(orderPage.streetAddressField,"Mazar Road Mirpur 1 Dhaka.");
+        orderPage.writeOnByLocator(orderPage.streetAddress2Field,"Mazar Road Mirpur 10 Dhaka.");
+        orderPage.writeOnByLocator(orderPage.zipCodeField,"1165");
         orderPage.scrollDown();
-        orderPage.writeOnByLocator(orderPage.phoneNumberField,testData[8]);
-        orderPage.writeOnByLocator(orderPage.faxNumberField,testData[9]);
+        orderPage.writeOnByLocator(orderPage.phoneNumberField,"01235478965");
+        orderPage.writeOnByLocator(orderPage.faxNumberField,"254678954");
         orderPage.takeScreenShot("billing information");
         orderPage.clickOnElement(orderPage.continueButton);
         orderPage.clickOnElement(orderPage.shippingMethod);
@@ -55,7 +55,7 @@ public class TC02OrderTest extends DriverSetUp {
         Thread.sleep(6000);
         orderPage.takeScreenShot("Order Conformation message");
         Assert.assertEquals(orderPage.getElementText(orderPage.popUpMessage),"Your order has been successfully processed!\n" +
-                "Order Number: 6412");
+                "Order Number: 6435");
 
 
 
