@@ -2,37 +2,47 @@ package testCase;
 
 import Page.OrderPage;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import utilities.DriverSetUp;
 import utilities.ExcelReader;
 
 public class TC02OrderTest extends DriverSetUp {
     OrderPage orderPage = new OrderPage();
 
-    @Test
-    public void placeOrderAsaGuestUser() throws InterruptedException {
+    @DataProvider(name = "orderData")
+    public Object[][] getOrderData() {
+        String filePath = "C:\\Users\\User\\Documents\\testdata.xlsx";
+        String sheetName = "Sheet1";
+        return ExcelReader.readTestData(filePath, sheetName);
+    }
+
+    @Test(dataProvider = "orderData")
+    public void placeOrderAsaGuestUser(String firstName, String lastName, String email, String company, String city, String streetAddress1, String streetAddress2, String zipCode, String phoneNumber, String faxNumber) throws InterruptedException {
+        SoftAssert softAssert = new SoftAssert();
 
 
         orderPage.clickOnElement(orderPage.shoppingCart);
         orderPage.clickOnElement(orderPage.checkoutButton);
         orderPage.clickOnElement(orderPage.checkoutAsGuest);
-        orderPage.writeOnByLocator(orderPage.firstNameField,"Muhammad");
-        orderPage.writeOnByLocator(orderPage.lastNameField,"Shazzad");
-        orderPage.writeOnByLocator(orderPage.emailField,"muhammad123@gmail.com");
+        orderPage.writeOnByLocator(orderPage.firstNameField, firstName);
+        orderPage.writeOnByLocator(orderPage.lastNameField, lastName);
+        orderPage.writeOnByLocator(orderPage.emailField, email);
         orderPage.clickOnElement(orderPage.selectCountry);
         orderPage.scrollToElement01("Bangladesh");
         orderPage.clickOnElement(orderPage.Bangladesh);
         orderPage.clickOnElement(orderPage.selectState);
         orderPage.scrollToElement01("টাঙ্গাইল");
         orderPage.clickOnElement(orderPage.Tangail);
-        orderPage.writeOnByLocator(orderPage.companyField,"ABC company");
-        orderPage.writeOnByLocator(orderPage.cityField,"Tangail");
-        orderPage.writeOnByLocator(orderPage.streetAddressField,"Mazar Road Mirpur 1 Dhaka.");
-        orderPage.writeOnByLocator(orderPage.streetAddress2Field,"Mazar Road Mirpur 10 Dhaka.");
-        orderPage.writeOnByLocator(orderPage.zipCodeField,"1165");
+        orderPage.writeOnByLocator(orderPage.companyField, company);
+        orderPage.writeOnByLocator(orderPage.cityField, city);
+        orderPage.writeOnByLocator(orderPage.streetAddressField, streetAddress1);
+        orderPage.writeOnByLocator(orderPage.streetAddress2Field, streetAddress2);
+        orderPage.writeOnByLocator(orderPage.zipCodeField, zipCode);
         orderPage.scrollDown();
-        orderPage.writeOnByLocator(orderPage.phoneNumberField,"01235478965");
-        orderPage.writeOnByLocator(orderPage.faxNumberField,"254678954");
+        orderPage.writeOnByLocator(orderPage.phoneNumberField, phoneNumber);
+        orderPage.writeOnByLocator(orderPage.faxNumberField, faxNumber);
         orderPage.takeScreenShot("billing information");
         orderPage.clickOnElement(orderPage.continueButton);
         orderPage.clickOnElement(orderPage.shippingMethod);
@@ -54,9 +64,8 @@ public class TC02OrderTest extends DriverSetUp {
         orderPage.clickOnElement(orderPage.confirmButton);
         Thread.sleep(6000);
         orderPage.takeScreenShot("Order Conformation message");
-        Assert.assertEquals(orderPage.getElementText(orderPage.popUpMessage),"Your order has been successfully processed!\n" +
-                "Order Number: 6435");
-
+        softAssert.assertEquals(orderPage.getElementText(orderPage.popUpMessage), "Your order has been successfully processed!\n" +
+                "Order Number: 6447");
 
 
     }
